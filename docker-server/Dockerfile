@@ -1,0 +1,20 @@
+FROM node:18.17.1-alpine
+RUN apk add --no-cache bash
+
+WORKDIR /
+
+COPY package*.json .
+
+RUN apk add --no-cache python3 py3-pip make g++ 
+
+RUN npm install
+
+RUN npm install ts-node
+
+COPY . .
+
+RUN npm run build
+
+EXPOSE 8080
+ 
+CMD [ "npm","start" ]

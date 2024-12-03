@@ -1,9 +1,11 @@
+import { HOST } from "../constants";
+
 type CreateSandboxResponse = {
     sandbox_id?: string;  
 };
 
 export const createSandbox = async (language: string,onError:(e:string)=>void): Promise<CreateSandboxResponse| undefined> => {
-    const API_URL = 'http://localhost:8000/sandbox'; // Replace with your actual API endpoint
+    const API_URL = HOST+'/sandbox'; // Replace with your actual API endpoint
 
     try {
         const response = await fetch(API_URL, {

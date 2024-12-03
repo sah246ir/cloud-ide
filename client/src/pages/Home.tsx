@@ -13,7 +13,7 @@ const Home = () => {
     const [boxes, Setboxes] = useState<Sandbox[]>([])
     const navigate = useNavigate()
     const createsanbox = (language: string) => {
-        fetch(`http://${HOST}/sandbox`, {
+        fetch(`${HOST}/sandbox`, {
             method: "post",
             headers: {
                 "content-type": "application/json"
@@ -29,14 +29,14 @@ const Home = () => {
     }
 
     const getLangs = () => {
-        fetch(`http://${HOST}/languages`)
+        fetch(`${HOST}/languages`)
             .then(res => res.json())
             .then((data: { data: LangType[] }) => {
                 Setlangs(data.data)
             })
     }
     const getSandboxes = () => {
-        fetch(`http://${HOST}/sandbox`)
+        fetch(`${HOST}/sandbox`)
             .then(res => res.json())
             .then((data: Sandbox[]) => {
                 Setboxes(data || [])

@@ -39,7 +39,7 @@ const SandboxContextProvider = ({ children }: PropTypes) => {
 
   const params = useParams()
   const fetchSandbox = () => {
-    fetch(`http://${HOST}/sandbox/` + params.id)
+    fetch(`${HOST}/sandbox/` + params.id)
       .then(res => res.json())
       .then((data: {sandbox:Sandbox}) => {
       SetUrl(data.sandbox.sandbox_ip + ":8080")

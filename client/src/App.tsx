@@ -3,6 +3,7 @@ import CodeSandbox from "./pages/codeSandbox";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import { SandboxContext } from "./context/sandboxContext";
+import SandboxDialog from "./components/sandboxDialog";
 
 function App() { 
   return (

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Sandbox } from '../types/sandboxtypes'
 import SandboxPreview from '../components/Home/Sandbox'
 import { HOST } from '../constants'
+import SandboxDialog from '../components/sandboxDialog'
 
 interface LangType {
     language: string
@@ -11,8 +12,10 @@ interface LangType {
 const Home = () => {
     const [langs, Setlangs] = useState<LangType[]>([])
     const [boxes, Setboxes] = useState<Sandbox[]>([])
+    const [loading, Setloading] = useState<boolean>(false)
     const navigate = useNavigate()
     const createsanbox = (language: string) => {
+        Setloading(true)
         fetch(`${HOST}/sandbox`, {
             method: "post",
             headers: {
@@ -22,9 +25,16 @@ const Home = () => {
                 "language": language
             })
         })
-            .then(res => res.json())
-            .then((data: { language: string, id: string }) => {
-                navigate(`/sandbox/${data.language}/${data.id}`)
+            .then(res => {
+                if(res.status!==200){throw Error()}
+                return res.json()
+            })
+            .then((data: { sandbox_id: string }) => {
+                Setloading(false)
+                navigate(`/sandbox/${data.sandbox_id}`)
+            }).catch(()=>{
+                Setloading(false)
+                alert("error occured! please try again later")
             })
     }
 
@@ -48,6 +58,7 @@ const Home = () => {
     }, [])
     return (
         <div>
+            {loading && <SandboxDialog /> }
             <div
                 className="flex items-center justify-center text-xl 
                    text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-500 

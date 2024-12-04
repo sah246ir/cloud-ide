@@ -10,15 +10,9 @@ interface PropTypes {
 
 const Language = ({ name, img, onClick }: PropTypes) => {
     const icon = require("../../media/" + img)
-    const nav = useNavigate()
-    const createsandbox = async()=>{
-        const res = await createSandbox(name,(e)=>alert(e))
-        if(res){
-            nav("/sandbox/"+res.sandbox_id)
-        }
-    }
+    const nav = useNavigate() 
     return (
-        <button onClick={createsandbox} className='transition duration-300 w-[100%] sm:min-w-80 sm:w-[48%] md:w-auto text-white bg-white bg-opacity-0 rounded-md font-extralight border-[.2px] border-gray-500 hover:bg-opacity-10 hover:border-gray-400 text-2xl py-5 flex items-center gap-2 px-5 justify-between'>
+        <button onClick={onClick} className='transition duration-300 w-[100%] sm:min-w-80 sm:w-[48%] md:w-auto text-white bg-white bg-opacity-0 rounded-md font-extralight border-[.2px] border-gray-500 hover:bg-opacity-10 hover:border-gray-400 text-2xl py-5 flex items-center gap-2 px-5 justify-between'>
             {name}
             <img src={icon} width={35} alt="" />
         </button>

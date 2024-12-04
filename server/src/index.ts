@@ -8,6 +8,8 @@ import { config } from "dotenv";
 import { IndexRouter } from "./Routes/indexRoute";
 import mongoose from "mongoose";
 import { SandboxRouter } from "./Routes/sandboxRoute";
+import { ECS } from "@aws-sdk/client-ecs";
+import { EC2 } from "@aws-sdk/client-ec2";
  
 config()
 mongoose.connect(process.env.MONGODB_URI || "")
@@ -21,6 +23,27 @@ mongoose.connect(process.env.MONGODB_URI || "")
 const app = express() 
 // initialize services
 export const clients = (process.env.CLIENTS || "").split(",")
+export const AWS_SUBNETS = (process.env.AWS_SUBNETS|| "").split(",")
+export const AWS_SECURITYGROUPS = (process.env.AWS_SECURITYGROUPS|| "").split(",")
+export const AWS_REGION = (process.env.AWS_REGION|| "")
+export const AWS_ACCESSKEY = (process.env.AWS_ACCESSKEY|| "")
+export const AWS_SECRETACCESSKEY = (process.env.AWS_SECRETACCESSKEY|| "")
+export const AWS_CLUSTER = (process.env.AWS_CLUSTER|| "")
+
+export const ecsClient = new ECS({
+    region: AWS_REGION,
+    credentials:{
+        accessKeyId:AWS_ACCESSKEY,
+        secretAccessKey:AWS_SECRETACCESSKEY
+    } 
+});
+export const ec2Client = new EC2({
+    region: AWS_REGION,
+    credentials:{
+        accessKeyId:AWS_ACCESSKEY,
+        secretAccessKey:AWS_SECRETACCESSKEY
+    } 
+});
 
 app.use(cors({
     origin: clients,// array of client urls

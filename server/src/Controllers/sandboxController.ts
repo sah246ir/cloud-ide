@@ -5,6 +5,7 @@ import e, { Request,Response } from "express";
 import { SandboxModel } from "../Models/Sandbox";
 import { createSandboxContainer } from "../utils/create-sandbox-container";
 import { SuportedLanguagesModel } from "../Models/SuportedLanguages";
+import { runTaskAndGetPublicIP } from "../utils/create-ecs-container";
 config()
 
  
@@ -26,18 +27,20 @@ export const CreateSandbox = async(req:Request,res:Response)=>{
             })
         }
 
-        const {containerIP,containerId} = await createSandboxContainer(lang.image)
-        await SandboxModel.create({
+        // const {containerIP,containerId} = await createSandboxContainer(lang.image)
+        const containerIP = await runTaskAndGetPublicIP(lang.image)
+        // throw Error()
+        const box = await SandboxModel.create({
             created_on:new Date(),
             last_access:new Date(),
             language:lang.language,
-            sandboxid:containerId,
+            // sandboxid:containerId,]
             sandbox_ip:containerIP,
             ip:req.ip
         })
 
-        return res.json({
-            sandbox_id:containerId,
+        return res.status(200).json({
+            sandbox_id:box.sandboxid,
         })
     } catch(e){
         console.log(e)

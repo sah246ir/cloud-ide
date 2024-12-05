@@ -49,11 +49,18 @@ The docker-server provides a secure and isolated environment for running user-su
    node dist/index.js
    ```
 
-4. **Build and Run Docker-Server:**
+4. **Build and Run Python Sandbox Docker-Server:**
    ```bash
    cd ../docker-server
-   docker build -f Dockerfile-python -t python-sandbox .
+   docker build -f Py-Dockerfile -t python-sandbox .
    docker run -d --name python-sandbox python-sandbox
+   ```
+
+5. **Build and Run Javascript Sandbox Docker-Server:**
+   ```bash
+   cd ../docker-server
+   docker build -f Js-Dockerfile -t javascript-sandbox .
+   docker run -d --name javascript-sandbox javascript-sandbox
    ```
 
 ---

@@ -3,9 +3,9 @@ import { DescribeTasksCommand, ECSClient,ListTasksCommand, RunTaskCommand} from 
 import { config } from "dotenv";
 import e, { Request,Response } from "express";
 import { SandboxModel } from "../Models/Sandbox";
-import { createSandboxContainer } from "../utils/create-sandbox-container";
+import { createSandboxContainer } from "../utils/create-docker-sandbox";
 import { SuportedLanguagesModel } from "../Models/SuportedLanguages";
-import { runTaskAndGetPublicIP } from "../utils/create-ecs-container";
+import { runTaskAndGetPublicIP } from "../utils/create-ecs-sandbox";
 config()
 
  
@@ -27,14 +27,23 @@ export const CreateSandbox = async(req:Request,res:Response)=>{
             })
         }
 
+        // uncomment snippet if trying out with local docker installation
         // const {containerIP,containerId} = await createSandboxContainer(lang.image)
+        // const box = await SandboxModel.create({
+        //     created_on:new Date(),
+        //     last_access:new Date(),
+        //     language:lang.language,
+        //     sandboxid:containerId,
+        //     sandbox_ip:containerIP,
+        //     ip:req.ip
+        // })
+
+        // uncomment snippet if trying out with local docker installation
         const containerIP = await runTaskAndGetPublicIP(lang.image)
-        // throw Error()
         const box = await SandboxModel.create({
             created_on:new Date(),
             last_access:new Date(),
             language:lang.language,
-            // sandboxid:containerId,]
             sandbox_ip:containerIP,
             ip:req.ip
         })

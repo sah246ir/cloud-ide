@@ -29,6 +29,7 @@ export const AWS_REGION = (process.env.AWS_REGION|| "")
 export const AWS_ACCESSKEY = (process.env.AWS_ACCESSKEY|| "")
 export const AWS_SECRETACCESSKEY = (process.env.AWS_SECRETACCESSKEY|| "")
 export const AWS_CLUSTER = (process.env.AWS_CLUSTER|| "")
+export const DOCKER_VERSION = (process.env.DOCKER_VERSION|| "")
 
 export const ecsClient = new ECS({
     region: AWS_REGION,

@@ -1,9 +1,10 @@
 import axios from "axios";
+import { DOCKER_VERSION } from "..";
 
  
 const docker = axios.create({
   socketPath: '/var/run/docker.sock',
-  baseURL: 'http://localhost/v1.46',
+  baseURL: 'http://localhost/'+DOCKER_VERSION,
   headers: { 'Content-Type': 'application/json' },
 });
 

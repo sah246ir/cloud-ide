@@ -1,4 +1,4 @@
-# Cloud IDE Project - README
+# Sandbox IDE Project
 
 Welcome to the Cloud IDE project! This repository hosts a web-based integrated development environment (IDE) that allows users to write, run, and debug code entirely within their browsers. The system is composed of three main components: a React-based frontend, a central server for backend processing, and a Docker-powered sandbox environment for secure and isolated code execution.
 
@@ -13,7 +13,7 @@ The client is a React-based frontend application that provides the user interfac
 The server is responsible for handling API requests from the client, managing user sessions, and orchestrating Docker containers for code execution. It acts as the central hub connecting the frontend to the docker-based sandbox environments.
 
 ### 3. **Docker-Server**  
-The docker-server provides a secure and isolated environment for running user-submitted code. Each container is configured to support a specific programming language or runtime environment, ensuring that code execution is safe and scalable. 
+The docker-server provides a secure and isolated environment for running user-submitted code. Each container is configured to support a specific programming language or runtime environment, ensuring that code execution is safe and scalable.
 
 ---
 
@@ -65,6 +65,16 @@ The docker-server provides a secure and isolated environment for running user-su
 
 ---
 
+## **Caution**
+
+- **Docker Image Creation:** Before attempting to run the system, ensure that the Docker images have been successfully created. You must build the images for both the Python and JavaScript sandboxes as part of the setup process. Skipping this step will result in errors during execution.
+
+- **Recommended Docker Setup:** It is highly recommended to use a local Docker installation for easier management and testing. 
+
+- **Using ECS:** If deploying the system on AWS ECS, make sure to push the created Docker images to the Elastic Container Registry (ECR) before using them on ECS. This ensures that the images are accessible for scaling or other cloud-based operations.
+
+---
+
 ## **Usage**
 
 1. Open the client application in your browser (e.g., `http://localhost:3000`).
@@ -95,3 +105,7 @@ This project is licensed under the [MIT License](LICENSE).
 --- 
 
 Thank you for being part of this journey! 🚀
+
+---
+
+This caution section clarifies the importance of creating the Docker images and provides guidance for using local Docker setups or ECS deployments.

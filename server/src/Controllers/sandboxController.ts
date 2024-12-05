@@ -6,6 +6,7 @@ import { SandboxModel } from "../Models/Sandbox";
 import { createSandboxContainer } from "../utils/create-docker-sandbox";
 import { SuportedLanguagesModel } from "../Models/SuportedLanguages";
 import { runTaskAndGetPublicIP } from "../utils/create-ecs-sandbox";
+import { use_docker } from "..";
 config()
 
  
@@ -26,27 +27,32 @@ export const CreateSandbox = async(req:Request,res:Response)=>{
                 error:"Please provide a valid programming language"
             })
         }
+        let containerIP;
+        let containerId;
+        let box;
+        if(use_docker){
+            const data = await createSandboxContainer(lang.image)
+            containerIP = data.containerIP
+            containerId = data.containerId
+            box = await SandboxModel.create({
+                created_on:new Date(),
+                last_access:new Date(),
+                language:lang.language,
+                sandboxid:containerId,
+                sandbox_ip:containerIP,
+                ip:req.ip
+            }) 
+        }else{
+            containerIP = await runTaskAndGetPublicIP(lang.image)
+            box = await SandboxModel.create({
+                created_on:new Date(),
+                last_access:new Date(),
+                language:lang.language,
+                sandbox_ip:containerIP,
+                ip:req.ip
+            }) 
+        }
 
-        // uncomment snippet if trying out with local docker installation
-        // const {containerIP,containerId} = await createSandboxContainer(lang.image)
-        // const box = await SandboxModel.create({
-        //     created_on:new Date(),
-        //     last_access:new Date(),
-        //     language:lang.language,
-        //     sandboxid:containerId,
-        //     sandbox_ip:containerIP,
-        //     ip:req.ip
-        // })
-
-        // uncomment snippet if trying out with local docker installation
-        const containerIP = await runTaskAndGetPublicIP(lang.image)
-        const box = await SandboxModel.create({
-            created_on:new Date(),
-            last_access:new Date(),
-            language:lang.language,
-            sandbox_ip:containerIP,
-            ip:req.ip
-        })
 
         return res.status(200).json({
             sandbox_id:box.sandboxid,

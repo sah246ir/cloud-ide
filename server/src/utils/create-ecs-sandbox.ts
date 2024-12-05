@@ -7,11 +7,14 @@ import {
 import { 
   DescribeNetworkInterfacesCommand 
 } from "@aws-sdk/client-ec2";
-import { AWS_CLUSTER, AWS_SECURITYGROUPS, AWS_SUBNETS, ec2Client, ecsClient } from "..";
+import { AWS_CLUSTER, AWS_SECURITYGROUPS, AWS_SUBNETS, ec2Client, ecsClient, use_docker } from "..";
 
 
 
 export async function runTaskAndGetPublicIP(task: string): Promise<string> { 
+  if(!ecsClient || !ec2Client){
+    throw Error("please set use_docker to 0 or remove it from the env file")
+  }
   try {
     // Step 1: Run the ECS task
     const runTaskCommand = new RunTaskCommand({

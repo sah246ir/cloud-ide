@@ -1,14 +1,17 @@
 import axios from "axios";
-import { DOCKER_VERSION } from "..";
+import { DOCKER_VERSION, use_docker } from "..";
 
  
+
 const docker = axios.create({
   socketPath: '/var/run/docker.sock',
-  baseURL: 'http://localhost/'+DOCKER_VERSION,
+  baseURL: 'http://localhost/v1.46',
   headers: { 'Content-Type': 'application/json' },
 });
-
 export async function createSandboxContainer(image:string):Promise<{ containerId:string, containerIP:string }> {
+  if(!use_docker){
+    throw Error("please set use_docker to 1 to use local docker daemon")
+  }
   let containerId = null; 
   try {
     const payload = {

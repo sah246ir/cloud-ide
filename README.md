@@ -52,15 +52,15 @@ The docker-server provides a secure and isolated environment for running user-su
 4. **Build and Run Python Sandbox Docker-Server:**
    ```bash
    cd ../docker-server
-   docker build -f Py-Dockerfile -t code-sandbox/sandbox-py .
-   docker run -d --name code-sandbox/sandbox-py code-sandbox/sandbox-py
+   docker build -f Py-Dockerfile -t code-sandbox-py .
+   docker run -d --name code-sandbox-py code-sandbox-py
    ```
 
 5. **Build and Run Javascript Sandbox Docker-Server:**
    ```bash
    cd ../docker-server
-   docker build -f Js-Dockerfile -t code-sandbox/sandbox-js .
-   docker run -d --name code-sandbox/sandbox-js code-sandbox/sandbox-js
+   docker build -f Js-Dockerfile -t code-sandbox-js .
+   docker run -d --name code-sandbox-js code-sandbox-js
    ```
 
 ---

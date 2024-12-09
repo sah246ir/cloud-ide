@@ -35,3 +35,19 @@ export async function createSandboxContainer(image:string):Promise<{ containerId
     throw error;  
   }  
 }
+
+
+export async function stopAndRemoveContainer(containerId: string): Promise<void> {
+  try {
+    // Stop the container
+    await docker.post(`/containers/${containerId}/stop`);
+
+    // Remove the container
+    await docker.delete(`/containers/${containerId}`);
+
+    console.log(`Container with ID ${containerId} has been stopped and removed.`);
+  } catch (error) {
+    console.error(`Error stopping or removing container ${containerId}: ${error instanceof Error ? error.message : error}`);
+    throw error;  // Rethrow the error for the caller to handle
+  }
+}

@@ -1,7 +1,8 @@
 import { 
   RunTaskCommand, 
   DescribeTasksCommand, 
-  waitUntilTasksRunning 
+  waitUntilTasksRunning, 
+  StopTaskCommand
 } from "@aws-sdk/client-ecs";
 
 import { 
@@ -11,7 +12,7 @@ import { AWS_CLUSTER, AWS_SECURITYGROUPS, AWS_SUBNETS, ec2Client, ecsClient, use
 
 
 
-export async function runTaskAndGetPublicIP(task: string): Promise<string> { 
+export async function runTaskAndGetPublicIP(task: string): Promise<{ containerId:string, containerIP:string }> { 
   if(!ecsClient || !ec2Client){
     throw Error("please set use_docker to 0 or remove it from the env file")
   }
@@ -96,10 +97,40 @@ export async function runTaskAndGetPublicIP(task: string): Promise<string> {
     }
 
     console.log(`Public IP: ${publicIp}`);
-    return publicIp;
+    return { containerId:taskArn, containerIP:publicIp } ;
 
   } catch (error) {
     console.error(`Error: ${error instanceof Error ? error.message : error}`);
+    throw error;
+  }
+}
+
+
+
+
+export async function stopTask(taskArn: string): Promise<void> {
+  if (!ecsClient) {
+    throw Error("ECS client is not initialized. Please ensure proper configuration.");
+  }
+
+  try {
+    console.log(`Stopping task with ARN: ${taskArn}`);
+
+    const stopTaskCommand = new StopTaskCommand({
+      cluster: AWS_CLUSTER,
+      task: taskArn,
+      reason: "Task manually stopped via API.",
+    });
+
+    const response = await ecsClient.send(stopTaskCommand);
+
+    if (response.task) {
+      console.log(`Task with ARN ${taskArn} has been stopped.`);
+    } else {
+      console.warn(`No task details returned after attempting to stop task with ARN ${taskArn}.`);
+    }
+  } catch (error) {
+    console.error(`Error stopping task with ARN ${taskArn}: ${error instanceof Error ? error.message : error}`);
     throw error;
   }
 }

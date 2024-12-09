@@ -10,7 +10,7 @@ import mongoose from "mongoose";
 import { SandboxRouter } from "./Routes/sandboxRoute";
 import { ECS } from "@aws-sdk/client-ecs";
 import { EC2 } from "@aws-sdk/client-ec2";
- 
+import { rateLimit } from 'express-rate-limit'
 config()
 mongoose.connect(process.env.MONGODB_URI || "")
 .then(()=>{
@@ -23,8 +23,12 @@ mongoose.connect(process.env.MONGODB_URI || "")
 const app = express() 
 // initialize services
 export const use_docker = process.env.USE_DOCKER == "1"
-
-console.log(use_docker)
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, 
+	limit: 100,  
+	standardHeaders: 'draft-7',  
+	legacyHeaders: false,  
+})
 export const clients = (process.env.CLIENTS || "").split(",")
 export const AWS_SUBNETS = (process.env.AWS_SUBNETS|| "").split(",")
 export const AWS_SECURITYGROUPS = (process.env.AWS_SECURITYGROUPS|| "").split(",")
@@ -53,7 +57,7 @@ app.use(cors({
     origin: clients,// array of client urls
     credentials: true
 }))
-
+app.use(limiter)
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false })) 

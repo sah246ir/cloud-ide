@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGODB_URI || "")
     console.log(e)
 })
 const app = express() 
+app.set('trust proxy', true);  
 // initialize services
 export const use_docker = process.env.USE_DOCKER == "1"
 const limiter = rateLimit({

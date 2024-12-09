@@ -68,6 +68,10 @@ const SandboxContextProvider = ({ children }: PropTypes) => {
     ws.onclose = () => {
       setSocket(null)
     }
+
+    ws.onerror = ()=> {
+      setSocket(null) 
+    }
     return () => {
       ws.close()
     }

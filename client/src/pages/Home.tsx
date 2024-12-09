@@ -15,28 +15,33 @@ const Home = () => {
     const [loading, Setloading] = useState<boolean>(false)
     const navigate = useNavigate()
     const createsanbox = (language: string) => {
-        Setloading(true)
+        Setloading(true);
+
         fetch(`${HOST}/sandbox`, {
-            method: "post",
+            method: "POST",
             headers: {
-                "content-type": "application/json"
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                "language": language
-            })
+            body: JSON.stringify({ language }),
         })
-            .then(res => {
-                if(res.status!==200){throw Error()}
-                return res.json()
+            .then(async (res) => {
+                if (!res.ok) {
+                    const errorResponse = await res.json(); // Parse the response body
+                    console.log(errorResponse)
+                    throw new Error(errorResponse.message || "Unknown error occurred"); // Throw with message
+                }
+                return res.json();
             })
             .then((data: { sandbox_id: string }) => {
-                Setloading(false)
-                navigate(`/sandbox/${data.sandbox_id}`)
-            }).catch(()=>{
-                Setloading(false)
-                alert("error occured! please try again later")
+                Setloading(false);
+                navigate(`/sandbox/${data.sandbox_id}`);
             })
-    }
+            .catch((err: Error) => {
+                Setloading(false);
+                alert(err.message); // Display error message
+            });
+    };
+
 
     const getLangs = () => {
         fetch(`${HOST}/languages`)
@@ -58,7 +63,7 @@ const Home = () => {
     }, [])
     return (
         <div>
-            {loading && <SandboxDialog /> }
+            {loading && <SandboxDialog />}
             <div
                 className="flex items-center justify-center text-xl 
                    text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-500 
@@ -92,7 +97,7 @@ const Home = () => {
                 <div className="flex flex-wrap gap-5 ">
                     {boxes.map(box => {
                         return (
-                            <SandboxPreview sandbox={box} />
+                            <SandboxPreview onDelete={getSandboxes} sandbox={box} />
                         )
                     })}
                 </div>

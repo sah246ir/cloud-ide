@@ -38,14 +38,14 @@ export const AWS_SECRETACCESSKEY = (process.env.AWS_SECRETACCESSKEY|| "")
 export const AWS_CLUSTER = (process.env.AWS_CLUSTER|| "")
 export const DOCKER_VERSION = (process.env.DOCKER_VERSION|| "")
 
-export const ecsClient = use_docker ? new ECS({
+export const ecsClient = !use_docker ? new ECS({
     region: AWS_REGION,
     credentials:{
         accessKeyId:AWS_ACCESSKEY,
         secretAccessKey:AWS_SECRETACCESSKEY
     } 
 }):undefined;
-export const ec2Client =  use_docker ? new EC2({
+export const ec2Client =  !use_docker ? new EC2({
     region: AWS_REGION,
     credentials:{
         accessKeyId:AWS_ACCESSKEY,

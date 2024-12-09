@@ -28,12 +28,32 @@ export async function createSandboxContainer(image:string):Promise<{ containerId
     // Inspect the container to get its IP address
     const inspectResponse = await docker.get(`/containers/${containerId}/json`);
     const containerIP = inspectResponse.data.NetworkSettings.IPAddress;
-
+    await waitForReachable(`http://${containerIP}:8080/files`, 5000); 
     return { containerId, containerIP } 
 
   } catch (error) {
     throw error;  
   }  
+}
+
+async function waitForReachable(url: string, timeout: number): Promise<void> {
+  const interval = 1000; // Check every second
+  const startTime = Date.now();
+
+  while (Date.now() - startTime < timeout) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        return; // URL is reachable
+      }
+    } catch (error) {
+      // Ignore errors and retry
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, interval));
+  }
+
+  throw new Error(`Container did not become reachable at ${url} within ${timeout}ms`);
 }
 
 

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import File from './File'
 import { ChevronRight } from 'lucide-react'
 import { FileStructureType } from '../../pages/codeSandbox'
-import { SandboxContext } from '../../context/sandboxContext'
 import { FileSystemContext } from '../../context/fileSystemContext'
 
 interface PropTypes {

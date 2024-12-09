@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { useSocket } from '../../hooks/useSocket'
 import { FileSystemContext } from '../../context/fileSystemContext'
 import { Terminal as XTerminal } from "@xterm/xterm"
 import "@xterm/xterm/css/xterm.css"

@@ -1,5 +1,4 @@
 import React from 'react'
-import { createSandbox } from '../../actions/sandboxActions'
 import { useNavigate } from 'react-router-dom'
 
 interface PropTypes {

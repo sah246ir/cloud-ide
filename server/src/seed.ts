@@ -3,10 +3,10 @@ import { SuportedLanguagesModel } from "./Models/SuportedLanguages";
 SuportedLanguagesModel.insertMany([
     {
         language:"javascript",
-        image:"code-sandbox/sandbox-js"
+        image:"code-sandbox-js"
     },
     {
         language:"python",
-        image:"code-sandbox/sandbox-py"
+        image:"code-sandbox-py"
     }
 ])

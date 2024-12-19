@@ -16,7 +16,7 @@ const SandboxPreview = ({sandbox,onDelete}: PropTypes) => {
     const deletesanbox = () => {
         if(!window.confirm("the sandbox will be deleted permanently"))return
         Setload(true)
-        fetch(`${HOST}/sandbox/${sandbox.sandboxid}`, {
+        fetch(`${HOST}/sandbox/${sandbox._id}`, {
             method: "delete",
             headers: {
                 "content-type": "application/json"

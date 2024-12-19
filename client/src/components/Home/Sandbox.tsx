@@ -46,7 +46,7 @@ const SandboxPreview = ({sandbox,onDelete}: PropTypes) => {
                             <LoaderCircle size={20} className='m-auto animate-spin' />
                         }
                     </button>
-                    {!load && <Link to={"/sandbox/"+sandbox.sandboxid} className='text-white transition duration-300 bg-green-700 px-2 py-0.5 rounded hover:bg-green-900'>
+                    {!load && <Link to={"/sandbox/"+sandbox._id} className='text-white transition duration-300 bg-green-700 px-2 py-0.5 rounded hover:bg-green-900'>
                         Enter
                     </Link>}
                 </div>

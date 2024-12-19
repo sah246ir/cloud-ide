@@ -34,7 +34,7 @@ const Home = () => {
             })
             .then((data: { sandbox_id: string }) => {
                 Setloading(false);
-                navigate(`/sandbox/${data.sandbox_id}`);
+                getSandboxes()
             })
             .catch((err: Error) => {
                 Setloading(false);

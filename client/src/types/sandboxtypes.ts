@@ -4,5 +4,6 @@ export interface Sandbox {
     language:string,
     sandboxid:string,
     sandbox_ip:string,
+    _id:string,
     ip:string
 }

@@ -47,7 +47,7 @@ export async function runTaskAndGetPublicIP(task: string): Promise<{ containerId
 
     // Step 2: Wait for the task to be in the running state
     await waitUntilTasksRunning(
-      { client: ecsClient, maxWaitTime: 120 }, // Add maxWaitTime in seconds
+      { client: ecsClient, maxWaitTime: 300 }, // Add maxWaitTime in seconds
       { cluster: AWS_CLUSTER, tasks: [taskArn] }
     );
     console.log(`Task is running: ${taskArn}`);

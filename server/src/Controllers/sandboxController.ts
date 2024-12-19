@@ -78,7 +78,7 @@ export const GetSandbox = async (req: Request, res: Response) => {
                 error: "Sandbox ID is required",
             });
         } 
-        const sandbox = await SandboxModel.findOne({ sandboxid: id }); 
+        const sandbox = await SandboxModel.findById(id); 
         if (!sandbox) {
             return res.status(404).json({
                 error: "Sandbox not found",

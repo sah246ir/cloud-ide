@@ -5,7 +5,7 @@ export const SandboxRouter = Router()
  
 SandboxRouter.post("",CreateSandbox)
 SandboxRouter.get("/:id",GetSandbox)
-SandboxRouter.delete("/:sandboxid",DeleteSandbox)
+SandboxRouter.delete("/:id",DeleteSandbox)
 SandboxRouter.get("",GetActiveSandboxes)
 
 

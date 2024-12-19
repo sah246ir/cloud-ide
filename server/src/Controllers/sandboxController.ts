@@ -111,8 +111,8 @@ export const GetActiveSandboxes = async (req: Request, res: Response) => {
 
 export const DeleteSandbox = async (req: Request, res: Response) => {
     try {    
-        const sandbox_id = req.params.sandboxid
-        const sandbox = await SandboxModel.findOne({ sandboxid: sandbox_id }); 
+        const id = req.params.id
+        const sandbox = await SandboxModel.findById(id); 
         if(!sandbox){
             return res.status(404).json({})
         }
@@ -122,8 +122,8 @@ export const DeleteSandbox = async (req: Request, res: Response) => {
             await stopTask(sandbox.sandboxid) 
         }
 
-        await SandboxModel.deleteOne({sandboxid:sandbox.sandboxid})
-        return res.json(sandbox_id);
+        await SandboxModel.deleteOne({_id:id})
+        return res.json(id);
     } catch (e) {
         console.error(e);
         return res.status(500).json({
